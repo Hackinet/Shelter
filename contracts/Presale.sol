@@ -22,4 +22,15 @@ contract PresaleToken is ERC20{
         lockEnd = block.timestamp + ONE_WEEK;
         _mint(msg.sender, 100000000000 ether);
     }
+
+    /// @dev function to send out 10% of presale funds to investors each week (max of 10 times)
+    function sendPresaleTokens()external{
+        require(lockEnd <= block.timestamp, "Can only withdrawl 10% each week since launch");
+        require(presaleCount < 10, "Can only send presale funds 10 times");
+        lockEnd += ONE_WEEK;
+        presaleCount += 1;
+        for(uint i = 0; i < investors.length; i++){
+            _mint(investors[i],presaleOwedPerPeriod[investors[i]]);
+        }
+    }
 }

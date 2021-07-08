@@ -9,8 +9,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract Sheltor is PresaleToken, Ownable{
 
     uint public constant ONE_HUNDRED_PERCENT = 10000;
-    uint public constant CHARITY_TAX = 3000;
-    uint public constant LIQUIDITY_FEE = 3000;
+    uint public constant CHARITY_TAX = 300;
+    uint public constant LIQUIDITY_FEE = 300;
     address public constant charity = 0xb5bc62c665c13590188477dfD83F33631C1Da0ba;
 
     IUniswapV2Router02 uniRouter;
@@ -35,9 +35,11 @@ contract Sheltor is PresaleToken, Ownable{
 
     /// @dev charity tax before any transfer
     function _beforeTokenTransfer(address from, address to, uint256 amount)internal override{
-        _transfer(from, charity, _applyPercent(amount, CHARITY_TAX));
-        _transfer(from, address(this), _applyPercent(amount, LIQUIDITY_FEE));
-        swapAndLiquify(balanceOf(address(this)));
+        if(from != address(0) && to != address(0)){
+            _transfer(from, charity, _applyPercent(amount, CHARITY_TAX));
+            _transfer(from, address(this), _applyPercent(amount, LIQUIDITY_FEE));
+            swapAndLiquify(balanceOf(address(this)));
+        }
     }
 
     /// @dev helper function to apply percents
@@ -45,16 +47,10 @@ contract Sheltor is PresaleToken, Ownable{
         return ((_num * _percent) / ONE_HUNDRED_PERCENT);
     }
 
-    function sendBNBToTeam(uint256 amount) private { 
-        swapTokensForEth(amount); 
-        payable(charity).transfer(address(this).balance); 
-    }
-
     function swapAndLiquify(uint256 contractTokenBalance) private lockTheSwap {
         // split the contract balance into thirds
-        uint256 halfOfLiquify = contractTokenBalance / 4;
-        uint256 otherHalfOfLiquify = contractTokenBalance / 4;
-        uint256 portionForFees = (contractTokenBalance - halfOfLiquify) - (otherHalfOfLiquify);
+        uint256 halfOfLiquify = contractTokenBalance / 2;
+        uint256 otherHalfOfLiquify = contractTokenBalance - halfOfLiquify;
 
         // capture the contract's current ETH balance.
         // this is so that we can capture exactly the amount of ETH that the
@@ -70,7 +66,6 @@ contract Sheltor is PresaleToken, Ownable{
 
         // add liquidity to uniswap
         addLiquidity(otherHalfOfLiquify, newBalance);
-        sendBNBToTeam(portionForFees);
     }
 
     function swapTokensForEth(uint256 tokenAmount) private {

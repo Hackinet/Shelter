@@ -65,16 +65,24 @@ contract Escrow is Ownable{
     function liquidate()external{
         require(block.timestamp > timeLockBuffer, "There is a buffer in place due to a recent decrease in the time lock period. You must wait to liquidate");
         uint liquidations = 0;
+        //Starting from the oldest non-liquidated bounty loop
         for(uint i = boutiesIndex; i < bounties.length; i++){
+            //If bounty expired
             if(block.timestamp + timeLock > bounties[i].timestamp){
-                uint temp = bounties[i].amount;
-                bounties[i].amount = 0;
-                liquidations += temp;
+                //if outstanding balance still
+                if(bounties[i].amount > 0){
+                    uint temp = bounties[i].amount;
+                    bounties[i].amount = 0;
+                    liquidations += temp;
+                }
+            //Once we get to a non-expired bounty
             }else{
+                //update the bounties index and break
                 boutiesIndex = i;
                 break;
             }
         }
+        //send liquidated balance to charity
         sheltorToken.transfer(charity, liquidations);
     }
 }
