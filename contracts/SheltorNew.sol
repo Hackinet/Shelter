@@ -14,9 +14,9 @@ contract Sheltor is PresaleToken, Ownable{
     address public constant charity = 0xb5bc62c665c13590188477dfD83F33631C1Da0ba;
 
     IUniswapV2Router02 uniRouter;
-
+    address uniswapV2Pair;
     bool inSwapAndLiquify;
-    bool public swapAndLiquifyEnabled = true;
+    bool public swapAndLiquifyEnabled = false;
 
 
     constructor(address[] memory _investors, uint[] memory _amounts)PresaleToken("Sheltor Token", "SHELTOR", _investors, _amounts){
@@ -28,17 +28,22 @@ contract Sheltor is PresaleToken, Ownable{
         _;
         inSwapAndLiquify = false;
     }
-
-    function setSwapAndLiquifyEnabled(bool _enabled) public onlyOwner {
+     //to recieve ETH from uniswapV2Router when swaping
+    receive() external payable {}
+   
+    function setSwapAndLiquifyEnabled(bool _enabled) external onlyOwner {
         swapAndLiquifyEnabled = _enabled;
     }
 
     /// @dev charity tax before any transfer
     function _beforeTokenTransfer(address from, address to, uint256 amount)internal override{
-        if(from != address(0) && to != address(0)){
-            _transfer(from, charity, _applyPercent(amount, CHARITY_TAX));
-            _transfer(from, address(this), _applyPercent(amount, LIQUIDITY_FEE));
-            swapAndLiquify(balanceOf(address(this)));
+        if(from != address(0) && to != address(0) && from != address(uniRouter) && to != address(uniRouter) && from != uniswapV2Pair && to != uniswapV2Pair){
+            _mint(charity, _applyPercent(amount, CHARITY_TAX));
+            _mint(address(this), _applyPercent(amount, LIQUIDITY_FEE));
+            _burn(from, _applyPercent(amount, CHARITY_TAX) + _applyPercent(amount, LIQUIDITY_FEE));
+            if(swapAndLiquifyEnabled && !inSwapAndLiquify){
+                swapAndLiquify(balanceOf(address(this)));  
+            }
         }
     }
 
@@ -47,10 +52,16 @@ contract Sheltor is PresaleToken, Ownable{
         return ((_num * _percent) / ONE_HUNDRED_PERCENT);
     }
 
+    function sendBNBToTeam(uint256 amount) private {
+        swapTokensForEth(amount);
+        payable(charity).transfer(address(this).balance);
+    }
+
     function swapAndLiquify(uint256 contractTokenBalance) private lockTheSwap {
         // split the contract balance into thirds
-        uint256 halfOfLiquify = contractTokenBalance / 2;
-        uint256 otherHalfOfLiquify = contractTokenBalance - halfOfLiquify;
+        uint256 halfOfLiquify = contractTokenBalance / 4;
+        uint256 otherHalfOfLiquify = contractTokenBalance / 4;
+        uint256 portionForFees = (contractTokenBalance - halfOfLiquify) - (otherHalfOfLiquify);
 
         // capture the contract's current ETH balance.
         // this is so that we can capture exactly the amount of ETH that the
@@ -66,6 +77,7 @@ contract Sheltor is PresaleToken, Ownable{
 
         // add liquidity to uniswap
         addLiquidity(otherHalfOfLiquify, newBalance);
+        sendBNBToTeam(portionForFees);
     }
 
     function swapTokensForEth(uint256 tokenAmount) private {
@@ -100,6 +112,5 @@ contract Sheltor is PresaleToken, Ownable{
             block.timestamp
         );
     }
-
-
+   
 }
