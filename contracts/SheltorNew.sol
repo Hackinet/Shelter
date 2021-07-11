@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract Sheltor is PresaleToken, Ownable{
 
     uint public constant ONE_HUNDRED_PERCENT = 10000;
-    uint public constant CHARITY_TAX = 300;
+    uint public constant CHARITY_TAX = 500;
     uint public constant LIQUIDITY_FEE = 300;
     address public constant charity = 0xb5bc62c665c13590188477dfD83F33631C1Da0ba;
 
