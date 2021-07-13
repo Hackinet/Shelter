@@ -1,3 +1,5 @@
+const secrets = require("./secrets.json");
+const HDWalletProvider = require("@truffle/hdwallet-provider"); 
 /**
  * Use this file to configure your truffle project. It's seeded with some
  * common settings for different networks and features like migrations,
@@ -25,6 +27,13 @@
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
 module.exports = {
+  plugins: [
+    'truffle-plugin-verify'
+  ],
+  api_keys: {
+    bscscan: secrets.api_key_bsc,
+    etherscan: secrets.api_key_eth
+  },
   /**
    * Networks define how you connect to your ethereum client and let you set the
    * defaults web3 uses to send transactions. If you don't specify one truffle
@@ -58,6 +67,30 @@ module.exports = {
     // },
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
+    bscTest: {
+      provider: () => new HDWalletProvider(secrets.mnemonic, `https://data-seed-prebsc-1-s1.binance.org:8545`),
+      network_id: 97,
+      confirmations: 10,
+      timeoutBlocks: 200,
+      skipDryRun: true,
+      gas: 30000000,
+      gasPrice: 30000000000
+    },
+    bscMain: {
+      provider: () => new HDWalletProvider(secrets.mnemonic, `https://bsc-dataseed1.binance.org`),
+      network_id: 56,
+      confirmations: 10,
+      timeoutBlocks: 200,
+      skipDryRun: true
+    },
+    kovan: {
+      provider: () => new HDWalletProvider(secrets.mnemonic, `wss://kovan.infura.io/ws/v3/` + secrets.infuraId),
+      network_id: 42,       // Kovan's id
+      networkCheckTimeout: 999999,
+      timeoutBlocks: 200,
+      gas: 10000000,
+      gasPrice: 25000000000
+      },
     // ropsten: {
     // provider: () => new HDWalletProvider(mnemonic, `https://ropsten.infura.io/v3/YOUR-PROJECT-ID`),
     // network_id: 3,       // Ropsten's id
@@ -85,10 +118,10 @@ module.exports = {
       version: "0.8.4",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
-      //  optimizer: {
-      //    enabled: false,
-      //    runs: 200
-      //  },
+       optimizer: {
+         enabled: true,
+         runs: 1000
+       },
       //  evmVersion: "byzantium"
       // }
     }

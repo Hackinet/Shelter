@@ -1,7 +1,7 @@
 {
   "name": "shelter",
   "version": "1.0.0",
-  "description": "",
+  "description": "Sheltor Token ============= Necessary functions for the fronted are described bellow",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +10,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@openzeppelin/contracts": "^4.2.0"
-  }
+    "@openzeppelin/contracts": "^4.2.0",
+    "@truffle/hdwallet-provider": "^1.4.1",
+    "truffle-plugin-verify": "^0.5.11"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CarsonCase/Shelter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CarsonCase/Shelter/issues"
+  },
+  "homepage": "https://github.com/CarsonCase/Shelter#readme"
 }
