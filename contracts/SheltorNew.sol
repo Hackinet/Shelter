@@ -20,7 +20,7 @@ contract Sheltor is PresaleToken, Ownable{
 
 
     constructor(address[] memory _investors, uint[] memory _amounts)PresaleToken("Sheltor Token", "SHELTOR", _investors, _amounts){
-        uniRouter = IUniswapV2Router02(0x10ED43C718714eb63d5aA57B78B54704E256024E);     //Pacnackeswap for BSC
+        uniRouter = IUniswapV2Router02(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D);     //Uniswap for ETH
     }
 
         modifier lockTheSwap {
