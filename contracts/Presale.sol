@@ -21,7 +21,7 @@ contract PresaleToken is ERC20{
         }
         
         lockEnd = block.timestamp + ONE_WEEK;
-        _mint(msg.sender, 1000000000 ether);
+        _mint(msg.sender, 1000000000 * (10^18));
     }
 
     //override decimals since _setupDecimals() is deprecated
