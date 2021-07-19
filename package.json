@@ -1,7 +1,7 @@
 {
   "name": "shelter",
   "version": "1.0.0",
-  "description": "Sheltor Token ============= Necessary functions for the fronted are described bellow",
+  "description": "Shelter Token ============= Necessary functions for the fronted are described bellow",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

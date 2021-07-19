@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Escrow is Ownable{
     address public constant charity = 0xb5bc62c665c13590188477dfD83F33631C1Da0ba;
-    IERC20 public immutable sheltorToken;
+    IERC20 public immutable shelterToken;
 
     uint public timeLockBuffer;
     uint public timeLock;
@@ -20,8 +20,8 @@ contract Escrow is Ownable{
 
     bounty[] bounties;
 
-    constructor(address _sheltor){
-        sheltorToken = IERC20(_sheltor);
+    constructor(address _shelter){
+        shelterToken = IERC20(_shelter);
     }
 
     event NewBounty(uint);
@@ -29,7 +29,7 @@ contract Escrow is Ownable{
     /// @dev create a new charity bounty
     function newBounty(uint _amount)external{
         require(_amount != 0, "cannot set a bounty of 0");
-        sheltorToken.transferFrom(msg.sender, address(this), _amount);
+        shelterToken.transferFrom(msg.sender, address(this), _amount);
 
         bounties.push(
             bounty({
@@ -47,7 +47,7 @@ contract Escrow is Ownable{
         require(bounties[_i].sponsor == msg.sender, "Must be the sponsor to close");
         uint temp = bounties[_i].amount;
         bounties[_i].amount = 0;
-        sheltorToken.transfer(_recipient, temp);
+        shelterToken.transfer(_recipient, temp);
     }
 
     /// @dev owner to change the timelock expiration date on bounties
@@ -83,6 +83,6 @@ contract Escrow is Ownable{
             }
         }
         //send liquidated balance to charity
-        sheltorToken.transfer(charity, liquidations);
+        shelterToken.transfer(charity, liquidations);
     }
 }

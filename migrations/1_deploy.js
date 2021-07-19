@@ -1,4 +1,4 @@
-const Sheltor = artifacts.require("Sheltor");
+const Shelter = artifacts.require("Shelter");
 const Escrow = artifacts.require("Escrow");
 
 //NOTE: These arrays must be the same length or deployment will fail
@@ -7,10 +7,10 @@ const investorsAmounts = []     //Enter the amounts each investor is owed TOTAL 
 
 module.exports = async(deployer)=>{
 
-    //Deploy sheltor token with arguments
-    await deployer.deploy(Sheltor,investors,investorsAmounts);
-    const sheltor = await Sheltor.deployed();
+    //Deploy shelter token with arguments
+    await deployer.deploy(Shelter,investors,investorsAmounts);
+    const shelter = await Shelter.deployed();
 
-    //Deploy escrow contract with sheltor's address as a parameter
-    await deployer.deploy(Escrow, sheltor.address);
+    //Deploy escrow contract with shelter's address as a parameter
+    await deployer.deploy(Escrow, shelter.address);
 }
