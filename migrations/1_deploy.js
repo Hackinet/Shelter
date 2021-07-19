@@ -9,7 +9,7 @@ module.exports = async(deployer)=>{
 
     //Deploy sheltor token with arguments
     await deployer.deploy(Sheltor,investors,investorsAmounts);
-    const sheltor = Sheltor.deployed();
+    const sheltor = await Sheltor.deployed();
 
     //Deploy escrow contract with sheltor's address as a parameter
     await deployer.deploy(Escrow, sheltor.address);
