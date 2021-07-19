@@ -19,7 +19,7 @@ contract Shelter is PresaleToken, Ownable{
     bool public swapAndLiquifyEnabled = false;
 
 
-    constructor(address[] memory _investors, uint[] memory _amounts)PresaleToken("Shelter Token", "SHELTOR", _investors, _amounts){
+    constructor(address[] memory _investors, uint[] memory _amounts)PresaleToken("Shelter Token", "SHELTER", _investors, _amounts){
         uniRouter = IUniswapV2Router02(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D);     //Uniswap for ETH
     }
 

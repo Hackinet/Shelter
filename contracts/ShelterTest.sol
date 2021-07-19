@@ -697,7 +697,7 @@
 //     uint256 private _tFeeTotal;
 
 //     string private _name = "Shelter Test";
-//     string private _symbol = "$SHELTORTest";
+//     string private _symbol = "$SHELTERTest";
 //     uint8 private _decimals = 9;
     
 //     uint256 public _taxFee = 3;
