@@ -93,8 +93,8 @@ module.exports = {
       },
     ethMain:{
       provider: () => new HDWalletProvider(secrets.mnemonic, `wss://mainnet.infura.io/ws/v3/` + secrets.infuraId),
-      network_id: 1,       // Mainnet's id
-  
+      network_id: 1,  // Mainnet's id
+      gasPrice: 25000000000
     }
     // ropsten: {
     // provider: () => new HDWalletProvider(mnemonic, `https://ropsten.infura.io/v3/YOUR-PROJECT-ID`),
