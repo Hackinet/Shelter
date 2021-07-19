@@ -21,6 +21,9 @@ Deployment
 
 Toggling LP
 -----------
+
+IMPORTANT: When using Uniswap deposit V2 liquidity. NOT V3. By default it is V3, you have to click a little button that says "version 2" at the bottom of the pools page. I made it this way because v2 is simpler, and works with Pancakeswap on BSC, in case you decide to switch back. If you deposit V3 liquidity the LP tax is not going to work.  
+
 When first launched the LP deposit tax is turned off. The "owner" of the contract: by default the deployer, will be able to toggle it on and off. you can change owners and toggle in the etherscan block explorer. There is a reason you must have it toggled off at first, because the LP deposit first swaps some of the token for ETH, and there must be liquidity for it to swap. So here's how you do that.
 
 - Go to uniswap and find the pools section. Enter the deployed Sheltor token's address and ETH as the pair. Deposit some liquidity, meaning a balance of both. This also sets the start price per SHELTOR.
