@@ -25,9 +25,9 @@ contract PresaleToken is ERC20{
     }
 
     //override decimals since _setupDecimals() is deprecated
-    function decimals() public view override returns (uint8) {
-		return 9;
-	}
+    //function decimals() public view override returns (uint8) {
+	//	return 9;
+	//}
 
     /// @dev function to send out 10% of presale funds to investors each week (max of 10 times)
     function sendPresaleTokens()external{
