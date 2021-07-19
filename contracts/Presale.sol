@@ -11,7 +11,7 @@ contract PresaleToken is ERC20{
     mapping (address => uint) public presaleOwedPerPeriod;
     uint private constant ONE_WEEK = 604800;
 
-    constructor(string memory _name, string memory _symbol, address[] memory _investors, uint[] memory _amounts)ERC20(_name, _symbol){
+    constructor(string memory _name, string memory _symbol, address[] memory _investors, uint[] memory _amounts)ERC20(_name, _symbol, 9){
         require(_investors.length == _amounts.length, "The arrays size must match");
         uint subFromTotal = 0;
         investors = _investors;
@@ -20,7 +20,7 @@ contract PresaleToken is ERC20{
             subFromTotal += _amounts[i];
         }
         lockEnd = block.timestamp + ONE_WEEK;
-        _mint(msg.sender, 100000000000 ether);
+        _mint(msg.sender, 10000000000 ether);
     }
 
     /// @dev function to send out 10% of presale funds to investors each week (max of 10 times)

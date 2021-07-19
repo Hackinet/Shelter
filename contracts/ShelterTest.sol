@@ -692,12 +692,12 @@
 //     address[] private _excluded;
    
 //     uint256 private constant MAX = ~uint256(0);
-//     uint256 private _tTotal = 100000000000 * 10**9;
+//     uint256 private _tTotal = 10000000000 * 10**9;
 //     uint256 private _rTotal = (MAX - (MAX % _tTotal));
 //     uint256 private _tFeeTotal;
 
 //     string private _name = "Shelter Test";
-//     string private _symbol = "$SHELTORTest";
+//     string private _symbol = "$SHELTERTest";
 //     uint8 private _decimals = 9;
     
 //     uint256 public _taxFee = 3;

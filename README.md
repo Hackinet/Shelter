@@ -26,7 +26,7 @@ IMPORTANT: When using Uniswap deposit V2 liquidity. NOT V3. By default it is V3,
 
 When first launched the LP deposit tax is turned off. The "owner" of the contract: by default the deployer, will be able to toggle it on and off. you can change owners and toggle in the etherscan block explorer. There is a reason you must have it toggled off at first, because the LP deposit first swaps some of the token for ETH, and there must be liquidity for it to swap. So here's how you do that.
 
-- Go to uniswap and find the pools section. Enter the deployed Shelter token's address and ETH as the pair. Deposit some liquidity, meaning a balance of both. This also sets the start price per SHELTOR.
+- Go to uniswap and find the pools section. Enter the deployed Shelter token's address and ETH as the pair. Deposit some liquidity, meaning a balance of both. This also sets the start price per SHELTER.
 - After this the token is ready to be toggled on so call the `setSwapAndLiquifyEnabled` function on etherscan with the true parameter to turn on LP deposits.
 NOTE: txs will likely require more gas when LP is turned on
 
