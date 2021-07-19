@@ -21,16 +21,13 @@ contract PresaleToken is ERC20{
         }
         
         lockEnd = block.timestamp + ONE_WEEK;
-        _mint(msg.sender, 1000000000 * 10 ** 9);
+        _mint(msg.sender, 1000000000 * 10^9);
     }
 
     //override decimals since _setupDecimals() is deprecated
-    //function decimals() public view override returns (uint8) {
-	//	return 9;
-	//}
 
     function decimals() public view virtual override returns (uint8) {
-        return 18;
+        return 9;
     }
 
     /// @dev function to send out 10% of presale funds to investors each week (max of 10 times)
