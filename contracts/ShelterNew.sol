@@ -3,6 +3,8 @@ pragma solidity ^0.8.0;
 
 import "./Presale.sol";
 import "./uniswap/IUniswapV2Router02.sol";
+import "./uniswap/IUniswapV2Factory.sol";
+import "./uniswap/IUniswapV2Pair.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 
@@ -20,7 +22,11 @@ contract Shelter is PresaleToken, Ownable{
 
 
     constructor(address[] memory _investors, uint[] memory _amounts)PresaleToken("Shelter Token", "SHELTER", _investors, _amounts){
-        uniRouter = IUniswapV2Router02(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D);     //Uniswap for ETH
+        //uniRouter = IUniswapV2Router02(0x10ED43C718714eb63d5aA57B78B54704E256024E);     //Pacnackeswap for BSC
+        uniRouter = IUniswapV2Router02(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D);     //uniswap for ETH
+        uniswapV2Pair = IUniswapV2Factory(uniRouter.factory())
+            .createPair(address(this), uniRouter.WETH());
+
     }
 
         modifier lockTheSwap {
@@ -30,7 +36,7 @@ contract Shelter is PresaleToken, Ownable{
     }
      //to recieve ETH from uniswapV2Router when swaping
     receive() external payable {}
-   
+    
     function setSwapAndLiquifyEnabled(bool _enabled) external onlyOwner {
         swapAndLiquifyEnabled = _enabled;
     }
@@ -42,7 +48,7 @@ contract Shelter is PresaleToken, Ownable{
             _mint(address(this), _applyPercent(amount, LIQUIDITY_FEE));
             _burn(from, _applyPercent(amount, CHARITY_TAX) + _applyPercent(amount, LIQUIDITY_FEE));
             if(swapAndLiquifyEnabled && !inSwapAndLiquify){
-                swapAndLiquify(balanceOf(address(this)));  
+                swapAndLiquify(balanceOf(address(this)));   
             }
         }
     }
@@ -52,9 +58,9 @@ contract Shelter is PresaleToken, Ownable{
         return ((_num * _percent) / ONE_HUNDRED_PERCENT);
     }
 
-    function sendBNBToTeam(uint256 amount) private {
-        swapTokensForEth(amount);
-        payable(charity).transfer(address(this).balance);
+    function sendBNBToTeam(uint256 amount) private { 
+        swapTokensForEth(amount); 
+        payable(charity).transfer(address(this).balance); 
     }
 
     function swapAndLiquify(uint256 contractTokenBalance) private lockTheSwap {
@@ -112,5 +118,5 @@ contract Shelter is PresaleToken, Ownable{
             block.timestamp
         );
     }
-   
+    
 }
