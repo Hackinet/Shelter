@@ -11,8 +11,9 @@ contract PresaleToken is ERC20{
     mapping (address => uint) public presaleOwedPerPeriod;
     uint private constant ONE_WEEK = 604800;
 
-    constructor(string memory _name, string memory _symbol, address[] memory _investors, uint[] memory _amounts)ERC20(_name, _symbol, 9){
+    constructor(string memory _name, string memory _symbol, address[] memory _investors, uint[] memory _amounts)ERC20(_name, _symbol){
         require(_investors.length == _amounts.length, "The arrays size must match");
+        _setupDecimals(9);
         uint subFromTotal = 0;
         investors = _investors;
         for(uint i = 0; i < _investors.length; i++){
