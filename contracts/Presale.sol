@@ -20,7 +20,7 @@ contract PresaleToken is ERC20{
             subFromTotal += _amounts[i];
         }
         lockEnd = block.timestamp + ONE_WEEK;
-        _mint(msg.sender, 10000000000 ether);
+        _mint(msg.sender, 10000000000 * 10 ** 9);
     }
 
     /// @dev function to send out 10% of presale funds to investors each week (max of 10 times)
